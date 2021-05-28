@@ -38,10 +38,11 @@ public class AmazonInappPurchasePlugin implements MethodCallHandler {
   public static Registrar reg;
   private final String TAG = "InappPurchasePlugin";
   private Result result = null;
+  private static MethodChannel channel;
 
   /** Plugin registration. */
   public static void registerWith(Registrar registrar) {
-    final MethodChannel channel = new MethodChannel(registrar.messenger(), "flutter_inapp");
+    channel = new MethodChannel(registrar.messenger(), "flutter_inapp");
     channel.setMethodCallHandler(new FlutterInappPurchasePlugin());
     reg = registrar;
   }
@@ -207,14 +208,31 @@ public class AmazonInappPurchasePlugin implements MethodCallHandler {
                   receipt.getReceiptId(),
                   transactionDate.doubleValue());
             Log.d(TAG, "opr Putting "+item.toString());
-            result.success(item.toString());
+            //result.success(item.toString());
+            channel.invokeMethod("purchase-updated", item.toString());
           } catch (JSONException e) {
             result.error(TAG, "E_BILLING_RESPONSE_JSON_PARSE_ERROR", e.getMessage());
+            channel.invokeMethod("purchase-error", e.getMessage());
+
           }
           break;
         case FAILED:
           result.error(TAG, "buyItemByType", "billingResponse is not ok: " + status);
           break;
+        case ALREADY_PURCHASED:
+          JSONObject json = new JSONObject();
+          try {
+            json.put("responseCode","ALREADY_PURCHASED");
+            json.put("debugMessage", "ALREADY_PURCHASED");
+            String[] errorData = DoobooUtils.getInstance().getBillingResponseData(7);
+            json.put("code", errorData[0]);
+            json.put("message", errorData[1]);
+            channel.invokeMethod("purchase-error", json.toString());
+          } catch (JSONException e) {
+            channel.invokeMethod("purchase-error", e.getMessage());
+          }
+          break;
+
       }
     }
 

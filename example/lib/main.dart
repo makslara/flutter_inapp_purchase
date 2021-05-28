@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
 
@@ -47,6 +47,7 @@ class _InAppState extends State<InApp> {
   void initState() {
     super.initState();
     initPlatformState();
+    _requestPurchase();
   }
 
   @override
@@ -101,8 +102,11 @@ class _InAppState extends State<InApp> {
     });
   }
 
-  void _requestPurchase(IAPItem item) {
-    FlutterInappPurchase.instance.requestPurchase(item.productId);
+  void _requestPurchase() {
+    Future a = FlutterInappPurchase.instance.requestSubscription('com.locals.testsubscription');
+    a.then((value) {
+      print(a);
+    });
   }
 
   Future _getProduct() async {
@@ -119,8 +123,7 @@ class _InAppState extends State<InApp> {
   }
 
   Future _getPurchases() async {
-    List<PurchasedItem> items =
-        await FlutterInappPurchase.instance.getAvailablePurchases();
+    List<PurchasedItem> items = await FlutterInappPurchase.instance.getAvailablePurchases();
     for (var item in items) {
       print('${item.toString()}');
       this._purchases.add(item);
@@ -167,7 +170,6 @@ class _InAppState extends State<InApp> {
                       color: Colors.orange,
                       onPressed: () {
                         print("---------- Buy Item Button Pressed");
-                        this._requestPurchase(item);
                       },
                       child: Row(
                         children: <Widget>[
@@ -217,8 +219,8 @@ class _InAppState extends State<InApp> {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width-20;
-    double buttonWidth=(screenWidth/3)-20;
+    double screenWidth = MediaQuery.of(context).size.width - 20;
+    double buttonWidth = (screenWidth / 3) - 20;
 
     return Container(
       padding: EdgeInsets.all(10.0),
@@ -299,78 +301,74 @@ class _InAppState extends State<InApp> {
                       ),
                     ],
                   ),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Container(
-                            width: buttonWidth,
-                            height: 60.0,
-                            margin: EdgeInsets.all(7.0),
-                            child: FlatButton(
-                              color: Colors.green,
-                              padding: EdgeInsets.all(0.0),
-                              onPressed: () {
-                                print("---------- Get Items Button Pressed");
-                                this._getProduct();
-                              },
-                              child: Container(
-                                padding: EdgeInsets.symmetric(horizontal: 20.0),
-                                alignment: Alignment(0.0, 0.0),
-                                child: Text(
-                                  'Get Items',
-                                  style: TextStyle(
-                                    fontSize: 16.0,
-                                  ),
-                                ),
+                  Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: <Widget>[
+                    Container(
+                        width: buttonWidth,
+                        height: 60.0,
+                        margin: EdgeInsets.all(7.0),
+                        child: FlatButton(
+                          color: Colors.green,
+                          padding: EdgeInsets.all(0.0),
+                          onPressed: () {
+                            print("---------- Get Items Button Pressed");
+                            this._getProduct();
+                          },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 20.0),
+                            alignment: Alignment(0.0, 0.0),
+                            child: Text(
+                              'Get Items',
+                              style: TextStyle(
+                                fontSize: 16.0,
                               ),
-                            )),
-                        Container(
-                            width: buttonWidth,
-                            height: 60.0,
-                            margin: EdgeInsets.all(7.0),
-                            child: FlatButton(
-                              color: Colors.green,
-                              padding: EdgeInsets.all(0.0),
-                              onPressed: () {
-                                print(
-                                    "---------- Get Purchases Button Pressed");
-                                this._getPurchases();
-                              },
-                              child: Container(
-                                padding: EdgeInsets.symmetric(horizontal: 20.0),
-                                alignment: Alignment(0.0, 0.0),
-                                child: Text(
-                                  'Get Purchases',
-                                  style: TextStyle(
-                                    fontSize: 16.0,
-                                  ),
-                                ),
+                            ),
+                          ),
+                        )),
+                    Container(
+                        width: buttonWidth,
+                        height: 60.0,
+                        margin: EdgeInsets.all(7.0),
+                        child: FlatButton(
+                          color: Colors.green,
+                          padding: EdgeInsets.all(0.0),
+                          onPressed: () {
+                            print("---------- Get Purchases Button Pressed");
+                            this._getPurchases();
+                          },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 20.0),
+                            alignment: Alignment(0.0, 0.0),
+                            child: Text(
+                              'Get Purchases',
+                              style: TextStyle(
+                                fontSize: 16.0,
                               ),
-                            )),
-                        Container(
-                            width: buttonWidth,
-                            height: 60.0,
-                            margin: EdgeInsets.all(7.0),
-                            child: FlatButton(
-                              color: Colors.green,
-                              padding: EdgeInsets.all(0.0),
-                              onPressed: () {
-                                print(
-                                    "---------- Get Purchase History Button Pressed");
-                                this._getPurchaseHistory();
-                              },
-                              child: Container(
-                                padding: EdgeInsets.symmetric(horizontal: 20.0),
-                                alignment: Alignment(0.0, 0.0),
-                                child: Text(
-                                  'Get Purchase History',
-                                  style: TextStyle(
-                                    fontSize: 16.0,
-                                  ),
-                                ),
+                            ),
+                          ),
+                        )),
+                    Container(
+                        width: buttonWidth,
+                        height: 60.0,
+                        margin: EdgeInsets.all(7.0),
+                        child: FlatButton(
+                          color: Colors.green,
+                          padding: EdgeInsets.all(0.0),
+                          onPressed: () {
+                            print("---------- Get Purchase History Button Pressed");
+                            this._getPurchaseHistory();
+                          },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 20.0),
+                            alignment: Alignment(0.0, 0.0),
+                            child: Text(
+                              'Get Purchase History',
+                              style: TextStyle(
+                                fontSize: 16.0,
                               ),
-                            )),
-                      ]),
+                            ),
+                          ),
+                        )),
+                  ]),
                 ],
               ),
               Column(
