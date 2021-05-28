@@ -222,7 +222,7 @@ public class AmazonInappPurchasePlugin implements MethodCallHandler {
         case ALREADY_PURCHASED:
           JSONObject json = new JSONObject();
           try {
-            json.put("responseCode","ALREADY_PURCHASED");
+            json.put("responseCode",7);
             json.put("debugMessage", "ALREADY_PURCHASED");
             String[] errorData = DoobooUtils.getInstance().getBillingResponseData(7);
             json.put("code", errorData[0]);
