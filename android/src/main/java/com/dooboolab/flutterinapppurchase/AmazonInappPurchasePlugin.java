@@ -180,7 +180,8 @@ public class AmazonInappPurchasePlugin implements MethodCallHandler {
                             Log.d(TAG, "opdr Putting " + item.toString());
                             items.put(item);
                         }
-                        //System.err.println("Sending "+items.toString());
+                        result.error(TAG, "E_BILLING_RESPONSE_JSON_PARSE_ERROR", "message");
+
                         result.success(items.toString());
                     } catch (JSONException e) {
                         result.error(TAG, "E_BILLING_RESPONSE_JSON_PARSE_ERROR", e.getMessage());
