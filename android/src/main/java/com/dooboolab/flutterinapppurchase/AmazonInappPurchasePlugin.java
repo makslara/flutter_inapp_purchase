@@ -62,7 +62,7 @@ public class AmazonInappPurchasePlugin implements MethodCallHandler {
         }
         if (call.method.equals("getPlatformVersion")) {
             try {
-                result.success("Android " + android.os.Build.VERSION.RELEASE);
+                result.success("Amazon " + android.os.Build.VERSION.RELEASE);
             } catch (IllegalStateException e) {
                 e.printStackTrace();
             }
@@ -216,7 +216,7 @@ public class AmazonInappPurchasePlugin implements MethodCallHandler {
                         //result.success(item.toString());
                         channel.invokeMethod("purchase-updated", item.toString());
                     } catch (JSONException e) {
-                        result.error(TAG, "E_BILLING_RESPONSE_JSON_PARSE_ERROR", e.getMessage());
+                        //result.error(TAG, "E_BILLING_RESPONSE_JSON_PARSE_ERROR", e.getMessage());
                         channel.invokeMethod("purchase-error", e.getMessage());
 
                     }
