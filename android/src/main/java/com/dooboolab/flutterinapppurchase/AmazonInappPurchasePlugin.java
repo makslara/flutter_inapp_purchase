@@ -124,7 +124,7 @@ public class AmazonInappPurchasePlugin implements MethodCallHandler {
         @Override
         public void onUserDataResponse(UserDataResponse userDataResponse) {
             Log.d(TAG, "oudr=" + userDataResponse.toString());
-            userId=userDataResponse.getUserData().getUserId();
+            userId = userDataResponse.getUserData().getUserId();
         }
 
         // getItemsByType
@@ -212,7 +212,7 @@ public class AmazonInappPurchasePlugin implements MethodCallHandler {
                         JSONObject item = getPurchaseData(receipt.getSku(),
                                 receipt.getReceiptId(),
                                 receipt.getReceiptId(),
-                                transactionDate.doubleValue());
+                                transactionDate.doubleValue(), response.getUserData().getUserId());
                         Log.d(TAG, "opr Putting " + item.toString());
                         //result.success(item.toString());
                         channel.invokeMethod("purchase-updated", item.toString());
@@ -295,7 +295,7 @@ public class AmazonInappPurchasePlugin implements MethodCallHandler {
                             JSONObject item = getPurchaseData(receipt.getSku(),
                                     receipt.getReceiptId(),
                                     receipt.getReceiptId(),
-                                    transactionDate.doubleValue());
+                                    transactionDate.doubleValue(), response.getUserData().getUserId());
 
                             Log.d(TAG, "opudr Putting " + item.toString());
                             items.put(item);
@@ -317,13 +317,13 @@ public class AmazonInappPurchasePlugin implements MethodCallHandler {
     };
 
     JSONObject getPurchaseData(String productId, String transactionId, String transactionReceipt,
-                               Double transactionDate) throws JSONException {
+                               Double transactionDate, String userId) throws JSONException {
         JSONObject item = new JSONObject();
         item.put("productId", productId);
         item.put("transactionId", transactionId);
         item.put("transactionReceipt", transactionReceipt);
         item.put("transactionDate", Double.toString(transactionDate));
-        item.put("userId",userId);
+        item.put("userId", userId);
         item.put("dataAndroid", null);
         item.put("signatureAndroid", null);
         item.put("purchaseToken", null);

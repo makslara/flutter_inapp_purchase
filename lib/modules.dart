@@ -48,20 +48,15 @@ class IAPItem {
         title = json['title'] as String,
         description = json['description'] as String,
         introductoryPrice = json['introductoryPrice'] as String,
-        introductoryPricePaymentModeIOS =
-            json['introductoryPricePaymentModeIOS'] as String,
-        introductoryPriceNumberOfPeriodsIOS =
-            json['introductoryPriceNumberOfPeriodsIOS'] as String,
+        introductoryPricePaymentModeIOS = json['introductoryPricePaymentModeIOS'] as String,
+        introductoryPriceNumberOfPeriodsIOS = json['introductoryPriceNumberOfPeriodsIOS'] as String,
         introductoryPriceSubscriptionPeriodIOS =
             json['introductoryPriceSubscriptionPeriodIOS'] as String,
-        subscriptionPeriodNumberIOS =
-            json['subscriptionPeriodNumberIOS'] as String,
+        subscriptionPeriodNumberIOS = json['subscriptionPeriodNumberIOS'] as String,
         subscriptionPeriodUnitIOS = json['subscriptionPeriodUnitIOS'] as String,
         subscriptionPeriodAndroid = json['subscriptionPeriodAndroid'] as String,
-        introductoryPriceCyclesAndroid =
-            json['introductoryPriceCyclesAndroid'] as String,
-        introductoryPricePeriodAndroid =
-            json['introductoryPricePeriodAndroid'] as String,
+        introductoryPriceCyclesAndroid = json['introductoryPriceCyclesAndroid'] as String,
+        introductoryPricePeriodAndroid = json['introductoryPricePeriodAndroid'] as String,
         freeTrialPeriodAndroid = json['freeTrialPeriodAndroid'] as String,
         signatureAndroid = json['signatureAndroid'] as String,
         iconUrl = json['iconUrl'] as String,
@@ -90,8 +85,7 @@ class IAPItem {
         'freeTrialPeriodAndroid: $freeTrialPeriodAndroid, '
         'iconUrl: $iconUrl, '
         'originalJson: $originalJson, '
-        'originalPrice: $originalPrice, '
-    ;
+        'originalPrice: $originalPrice, ';
   }
 }
 
@@ -112,6 +106,7 @@ class PurchasedItem {
   final int purchaseStateAndroid;
   final String developerPayloadAndroid;
   final String originalJsonAndroid;
+  final String userId;
 
   // iOS only
   final DateTime originalTransactionDateIOS;
@@ -125,7 +120,6 @@ class PurchasedItem {
         transactionReceipt = json['transactionReceipt'] as String,
         purchaseToken = json['purchaseToken'] as String,
         orderId = json['orderId'] as String,
-
         dataAndroid = json['dataAndroid'] as String,
         signatureAndroid = json['signatureAndroid'] as String,
         isAcknowledgedAndroid = json['isAcknowledgedAndroid'] as bool,
@@ -133,11 +127,9 @@ class PurchasedItem {
         purchaseStateAndroid = json['purchaseStateAndroid'] as int,
         developerPayloadAndroid = json['developerPayloadAndroid'] as String,
         originalJsonAndroid = json['originalJsonAndroid'] as String,
-
-        originalTransactionDateIOS =
-            _extractDate(json['originalTransactionDateIOS']),
-        originalTransactionIdentifierIOS =
-            json['originalTransactionIdentifierIOS'] as String;
+        userId = json['userId'] as String,
+        originalTransactionDateIOS = _extractDate(json['originalTransactionDateIOS']),
+        originalTransactionIdentifierIOS = json['originalTransactionIdentifierIOS'] as String;
 
   /// This returns transaction dates in ISO 8601 format.
   @override
@@ -148,6 +140,7 @@ class PurchasedItem {
         'transactionReceipt: $transactionReceipt, '
         'purchaseToken: $purchaseToken, '
         'orderId: $orderId, '
+
         /// android specific
         'dataAndroid: $dataAndroid, '
         'signatureAndroid: $signatureAndroid, '
@@ -156,6 +149,7 @@ class PurchasedItem {
         'purchaseStateAndroid: $purchaseStateAndroid, '
         'developerPayloadAndroid: $developerPayloadAndroid, '
         'originalJsonAndroid: $originalJsonAndroid, '
+
         /// ios specific
         'originalTransactionDateIOS: ${originalTransactionDateIOS?.toIso8601String()}, '
         'originalTransactionIdentifierIOS: $originalTransactionIdentifierIOS';
@@ -176,12 +170,7 @@ class PurchaseResult {
   final String code;
   final String message;
 
-  PurchaseResult({
-    this.responseCode,
-    this.debugMessage,
-    this.code,
-    this.message
-  });
+  PurchaseResult({this.responseCode, this.debugMessage, this.code, this.message});
 
   PurchaseResult.fromJSON(Map<String, dynamic> json)
       : responseCode = json['responseCode'] as int,
@@ -190,22 +179,20 @@ class PurchaseResult {
         message = json['message'] as String;
 
   Map<String, dynamic> toJson() => {
-    "responseCode": responseCode ?? 0,
-    "debugMessage": debugMessage ?? '',
-    "code": code ?? '',
-    "message": message ?? '',
-  };
+        "responseCode": responseCode ?? 0,
+        "debugMessage": debugMessage ?? '',
+        "code": code ?? '',
+        "message": message ?? '',
+      };
 
   @override
   String toString() {
     return 'responseCode: $responseCode, '
         'debugMessage: $debugMessage, '
         'code: $code, '
-        'message: $message'
-    ;
+        'message: $message';
   }
 }
-
 
 class ConnectionResult {
   final bool connected;
@@ -214,16 +201,14 @@ class ConnectionResult {
     this.connected,
   });
 
-  ConnectionResult.fromJSON(Map<String, dynamic> json)
-      : connected = json['connected'] as bool;
+  ConnectionResult.fromJSON(Map<String, dynamic> json) : connected = json['connected'] as bool;
 
   Map<String, dynamic> toJson() => {
-    "connected": connected ?? false,
-  };
+        "connected": connected ?? false,
+      };
 
   @override
   String toString() {
-    return 'connected: $connected'
-    ;
+    return 'connected: $connected';
   }
 }
