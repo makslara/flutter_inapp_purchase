@@ -41,6 +41,7 @@ public class AmazonInappPurchasePlugin implements MethodCallHandler {
     private final String TAG = "InappPurchasePlugin";
     private Result result = null;
     private static MethodChannel channel;
+    private String userId;
 
     /**
      * Plugin registration.
@@ -123,6 +124,7 @@ public class AmazonInappPurchasePlugin implements MethodCallHandler {
         @Override
         public void onUserDataResponse(UserDataResponse userDataResponse) {
             Log.d(TAG, "oudr=" + userDataResponse.toString());
+            userId=userDataResponse.getUserData().getUserId();
         }
 
         // getItemsByType
@@ -321,6 +323,7 @@ public class AmazonInappPurchasePlugin implements MethodCallHandler {
         item.put("transactionId", transactionId);
         item.put("transactionReceipt", transactionReceipt);
         item.put("transactionDate", Double.toString(transactionDate));
+        item.put("userId",userId);
         item.put("dataAndroid", null);
         item.put("signatureAndroid", null);
         item.put("purchaseToken", null);
