@@ -1,3 +1,5 @@
--dontwarn com.dooboolab.flutterinapppurchase**
--keep class com.dooboolab.flutterinapppurchase** {*;}
+-dontwarn com.dooboolab.flutterinapppurchase.**
+-keep class com.dooboolab.flutterinapppurchase.AmazonInappPurchasePlugin {*;}
 -keepattributes *Annotation*
+-dontoptimize
+
