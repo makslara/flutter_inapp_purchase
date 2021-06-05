@@ -1,0 +1,3 @@
+-dontwarn com.dooboolab.flutterinapppurchase**
+-keep class com.dooboolab.flutterinapppurchase** {*;}
+-keepattributes *Annotation*
