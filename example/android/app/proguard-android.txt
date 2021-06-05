@@ -1,8 +1,2 @@
--dontwarn com.dooboolab.flutterinapppurchase.**
--keep class com.dooboolab.flutterinapppurchase.AmazonInappPurchasePlugin {*;}
--keep class com.dooboolab.flutterinapppurchase.AndroidInappPurchasePlugin {*;}
--keep class com.dooboolab.flutterinapppurchase.DoobooUtils {*;}
-
--keepattributes *Annotation*
 -dontoptimize
 -dontobfuscate
