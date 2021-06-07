@@ -67,6 +67,8 @@ public class AmazonInappPurchasePlugin implements MethodCallHandler {
             } catch (IllegalStateException e) {
                 e.printStackTrace();
             }
+        } else if (call.method.equals("getSandboxMode")) {
+            result.success(PurchasingService.IS_SANDBOX_MODE);
         } else if (call.method.equals("initConnection")) {
             PurchasingService.getUserData();
             result.success("Billing client ready");
