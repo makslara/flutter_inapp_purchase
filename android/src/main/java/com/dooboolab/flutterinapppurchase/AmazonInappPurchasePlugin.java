@@ -67,7 +67,6 @@ public class AmazonInappPurchasePlugin implements MethodCallHandler {
                 e.printStackTrace();
             }
         } else if (call.method.equals("getSandboxMode")) {
-            PurchasingService.getUserData();
             channel.invokeMethod("log-show", "Method calls: getSandboxMode, result: " + PurchasingService.IS_SANDBOX_MODE
                     + ", date: " + Calendar.getInstance().getTime());
             result.success(PurchasingService.IS_SANDBOX_MODE);
