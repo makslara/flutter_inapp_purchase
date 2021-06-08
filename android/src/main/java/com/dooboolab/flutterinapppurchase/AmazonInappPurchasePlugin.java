@@ -20,7 +20,7 @@ import org.json.JSONObject;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
-import java.time.LocalDateTime;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -59,25 +59,25 @@ public class AmazonInappPurchasePlugin implements MethodCallHandler {
         this.result = result;
         if (call.method.equals("getPlatformVersion")) {
             try {
-                channel.invokeMethod("log-show", "Method calls: getPlatformVersion, result:\"Amazon \"" + android.os.Build.VERSION.RELEASE + ", date: " + Calendar.getInstance().getTime());
+                channel.invokeMethod("log-show", "Method calls: getPlatformVersion, result:\"Amazon \"" + android.os.Build.VERSION.RELEASE + ", date: " + getTime());
                 result.success("Amazon " + android.os.Build.VERSION.RELEASE);
 
             } catch (IllegalStateException e) {
-                channel.invokeMethod("log-show", "Method calls: getPlatformVersion, Error result: IllegalStateException, date: " + Calendar.getInstance().getTime());
+                channel.invokeMethod("log-show", "Method calls: getPlatformVersion, Error result: IllegalStateException, date: " + getTime());
                 e.printStackTrace();
             }
         } else if (call.method.equals("getSandboxMode")) {
             channel.invokeMethod("log-show", "Method calls: getSandboxMode, result: " + PurchasingService.IS_SANDBOX_MODE
-                    + ", date: " + Calendar.getInstance().getTime());
+                    + ", date: " + getTime());
             result.success(PurchasingService.IS_SANDBOX_MODE);
         }
         else if (call.method.equals("getStore")) {
             try {
-                channel.invokeMethod("log-show", "Method calls: getStore, result:\"Amazon \"" + android.os.Build.VERSION.RELEASE + ", date: " + Calendar.getInstance().getTime());
+                channel.invokeMethod("log-show", "Method calls: getStore, result:\"Amazon \"" + android.os.Build.VERSION.RELEASE + ", date: " + getTime());
                 result.success("Amazon " + android.os.Build.VERSION.RELEASE);
 
             } catch (IllegalStateException e) {
-                channel.invokeMethod("log-show", "Method calls: getStore, Error result: IllegalStateException, date: " + Calendar.getInstance().getTime());
+                channel.invokeMethod("log-show", "Method calls: getStore, Error result: IllegalStateException, date: " + getTime());
                 e.printStackTrace();
             }
         }else if (call.method.equals("initConnection")) {
@@ -85,29 +85,29 @@ public class AmazonInappPurchasePlugin implements MethodCallHandler {
                 PurchasingService.registerListener(reg.context(), purchasesUpdatedListener);
                 channel.invokeMethod("log-show", "Method calls: initConnection, result: purchasesUpdatedListener registered"
                         + "date: "
-                        + Calendar.getInstance().getTime());
+                        + getTime());
 
             } catch (Exception e) {
                 channel.invokeMethod("log-show",
                         "Method calls: initConnection, result: purchasesUpdatedListener didn`t registered"
                                 + "date: "
-                                + Calendar.getInstance().getTime());
+                                + getTime());
 
                 result.error(call.method, "Call endConnection method if you want to start over.", e.getMessage());
             }
             try {
                 PurchasingService.getUserData();
                 channel.invokeMethod("log-show", "Method calls: initConnection, result: Billing client ready"
-                        + ", date: " + Calendar.getInstance().getTime());
+                        + ", date: " + getTime());
 
             } catch (Exception e) {
-                channel.invokeMethod("log-show", "Method calls: initConnection, result Billing client isn`t ready" + ", date: " + Calendar.getInstance().getTime());
+                channel.invokeMethod("log-show", "Method calls: initConnection, result Billing client isn`t ready" + ", date: " + getTime());
 
             }
             result.success("Billing client ready");
         } else if (call.method.equals("endConnection")) {
             channel.invokeMethod("log-show", "Method calls: endConnection, result: Billing client has ended"
-                    + ", date: " + Calendar.getInstance().getTime());
+                    + ", date: " + getTime());
 
             result.success("Billing client has ended.");
         } else if (call.method.equals("consumeAllItems")) {
@@ -120,13 +120,13 @@ public class AmazonInappPurchasePlugin implements MethodCallHandler {
                 channel.invokeMethod("log-show", "Method calls: getItemsByType"
                         +", result: purchasesUpdatedListener registered, "
                         + "date: "
-                        + Calendar.getInstance().getTime());
+                        + getTime());
 
             } catch (Exception e) {
                 channel.invokeMethod("log-show",
                         "Method calls: getItemsByType and registered listener"+", result: repurchasesUpdatedListener didn`t registered"
                                 + "date: "
-                                + Calendar.getInstance().getTime());
+                                + getTime());
 
                 result.error(call.method, "Call endConnection method if you want to start over.", e.getMessage());
             }
@@ -137,14 +137,14 @@ public class AmazonInappPurchasePlugin implements MethodCallHandler {
             for (int i = 0; i < skus.size(); i++) {
                 Log.d(TAG, "Adding " + skus.get(i));
                 channel.invokeMethod("log-show", "Method calls: getItemsByType"
-                        + ", result: Adding skus: "+skus.get(i)+", date: " + Calendar.getInstance().getTime());
+                        + ", result: Adding skus: "+skus.get(i)+", date: " + getTime());
                 productSkus.add(skus.get(i));
             }
             try {
-                channel.invokeMethod("log-show", "Method calls: getItemsByType, and waiting callback result" + ", date: " + Calendar.getInstance().getTime());
+                channel.invokeMethod("log-show", "Method calls: getItemsByType, and waiting callback result" + ", date: " + getTime());
                 PurchasingService.getProductData(productSkus);
             }catch (Exception e){
-                channel.invokeMethod("log-show", "Method calls: getItemsByType, result: failed get ProductData " + ", date: " + Calendar.getInstance().getTime());
+                channel.invokeMethod("log-show", "Method calls: getItemsByType, result: failed get ProductData " + ", date: " + getTime());
             }
 
         } else if (call.method.equals("getAvailableItemsByType")) {
@@ -153,13 +153,13 @@ public class AmazonInappPurchasePlugin implements MethodCallHandler {
                 channel.invokeMethod("log-show", "Method calls: getAvailableItemsByType"
                         +", result: ,purchasesUpdatedListener registered"
                         + "date: "
-                        + Calendar.getInstance().getTime());
+                        + getTime());
 
             } catch (Exception e) {
                 channel.invokeMethod("log-show",
                         "Method calls: getAvailableItemsByType"+", result: repurchasesUpdatedListener didn`t registered"
                                 + ", date: "
-                                + Calendar.getInstance().getTime());
+                                + getTime());
 
                 result.error(call.method, "Call endConnection method if you want to start over.", e.getMessage());
             }
@@ -168,10 +168,10 @@ public class AmazonInappPurchasePlugin implements MethodCallHandler {
             // NOTE: getPurchaseUpdates doesnt return Consumables which are FULFILLED
             if (type.equals("inapp")) {
                 try {
-                    channel.invokeMethod("log-show", "Method calls: getAvailableItemsByType, and waiting callback result" + ", date: " + Calendar.getInstance().getTime());
+                    channel.invokeMethod("log-show", "Method calls: getAvailableItemsByType, and waiting callback result" + ", date: " + getTime());
                     PurchasingService.getPurchaseUpdates(true);
                 }catch (Exception e){
-                    channel.invokeMethod("log-show", "Method calls: getAvailableItemsByType, result: failed get AvailableItemsByType " + ", date: " + Calendar.getInstance().getTime());
+                    channel.invokeMethod("log-show", "Method calls: getAvailableItemsByType, result: failed get AvailableItemsByType " + ", date: " + getTime());
                 }
             } else if (type.equals("subs")) {
                 // Subscriptions are retrieved during inapp, so we just return empty list
@@ -188,13 +188,13 @@ public class AmazonInappPurchasePlugin implements MethodCallHandler {
                 channel.invokeMethod("log-show", "Method calls: buyItemByType"
                         +", result:purchasesUpdatedListener registered"
                         + ",date: "
-                        + Calendar.getInstance().getTime());
+                        + getTime());
 
             } catch (Exception e) {
                 channel.invokeMethod("log-show",
                         "Method calls: getAvailableItemsByType"+", result: repurchasesUpdatedListener didn`t registered"
                                 + ",date: "
-                                + Calendar.getInstance().getTime());
+                                + getTime());
 
                 result.error(call.method, "Call endConnection method if you want to start over.", e.getMessage());
             }
@@ -206,12 +206,12 @@ public class AmazonInappPurchasePlugin implements MethodCallHandler {
             final int prorationMode = call.argument("prorationMode");
             Log.d(TAG, "type=" + type + "||sku=" + sku + "||oldsku=" + oldSku);
             try {
-                channel.invokeMethod("log-show", "Method calls: buyItemByType, and waiting callback result"+",info: "+"accountId - "+accountId+", sku" +sku + ", date: " + Calendar.getInstance().getTime());
+                channel.invokeMethod("log-show", "Method calls: buyItemByType, and waiting callback result"+",info: "+"accountId - "+accountId+", sku" +sku + ", date: " + getTime());
                 final RequestId requestId = PurchasingService.purchase(sku);
                 Log.d(TAG, "resid=" + requestId.toString());
 
             }catch (Exception e){
-                channel.invokeMethod("log-show", "Method calls: buyItemByType, result: failed get AvailableItemsByType " + ", date: " + Calendar.getInstance().getTime());
+                channel.invokeMethod("log-show", "Method calls: buyItemByType, result: failed get AvailableItemsByType " + ", date: " + getTime());
 
             }
         } else if (call.method.equals("consumeProduct")) {
@@ -285,11 +285,11 @@ public class AmazonInappPurchasePlugin implements MethodCallHandler {
                             items.put(item);
                         }
                         //System.err.println("Sending "+items.toString());
-                        channel.invokeMethod("log-show", "Method calls: getProductData, and CallBack result: "+items.toString() + ", date: " + Calendar.getInstance().getTime());
+                        channel.invokeMethod("log-show", "Method calls: getProductData, and CallBack result: "+items.toString() + ", date: " + getTime());
 
                         result.success(items.toString());
                     } catch (JSONException e) {
-                        channel.invokeMethod("log-show", "Method calls: getProductData, and CallBack error result : JSONException, date: " + Calendar.getInstance().getTime());
+                        channel.invokeMethod("log-show", "Method calls: getProductData, and CallBack error result : JSONException, date: " + getTime());
 
                         result.error(TAG, "E_BILLING_RESPONSE_JSON_PARSE_ERROR", e.getMessage());
                     }
@@ -297,12 +297,12 @@ public class AmazonInappPurchasePlugin implements MethodCallHandler {
                 case FAILED:
                     Log.d(TAG, "onProductDataResponse: failed, should retry request");
 
-                    channel.invokeMethod("log-show", "Method calls: getProductData, and CallBack error result : FAILED, date: " + Calendar.getInstance().getTime());
+                    channel.invokeMethod("log-show", "Method calls: getProductData, and CallBack error result : FAILED, date: " + getTime());
 
                     result.error(TAG, "FAILED", null);
                 case NOT_SUPPORTED:
                     Log.d(TAG, "onProductDataResponse: NOT_SUPPORTED, should retry request");
-                    channel.invokeMethod("log-show", "Method calls: getProductData, and CallBack error result : NOT_SUPPORTED, date: " + Calendar.getInstance().getTime());
+                    channel.invokeMethod("log-show", "Method calls: getProductData, and CallBack error result : NOT_SUPPORTED, date: " + getTime());
                     result.error(TAG, "NOT_SUPPORTED", null);
                     break;
             }
@@ -326,11 +326,11 @@ public class AmazonInappPurchasePlugin implements MethodCallHandler {
                                 transactionDate.doubleValue(), response.getUserData().getUserId());
                         Log.d(TAG, "opr Putting " + item.toString());
                         //result.success(item.toString());
-                        channel.invokeMethod("log-show", "Method calls: buyItemByType, and CallBack result: "+item.toString() + ", date: " + Calendar.getInstance().getTime());
+                        channel.invokeMethod("log-show", "Method calls: buyItemByType, and CallBack result: "+item.toString() + ", date: " + getTime());
 
                         channel.invokeMethod("purchase-updated", item.toString());
                     } catch (JSONException e) {
-                        channel.invokeMethod("log-show", "Method calls: buyItemByType, and CallBack error result : JSONException, date: " + Calendar.getInstance().getTime());
+                        channel.invokeMethod("log-show", "Method calls: buyItemByType, and CallBack error result : JSONException, date: " + getTime());
                         channel.invokeMethod("purchase-error", e.getMessage());
 
                         result.error(TAG, "E_BILLING_RESPONSE_JSON_PARSE_ERROR", e.getMessage());
@@ -350,7 +350,7 @@ public class AmazonInappPurchasePlugin implements MethodCallHandler {
                     } catch (JSONException e) {
                         channel.invokeMethod("purchase-error", e.getMessage());
                     }
-                    channel.invokeMethod("log-show", "Method calls: buyItemByType, and CallBack error result : FAILED, date: " + Calendar.getInstance().getTime());
+                    channel.invokeMethod("log-show", "Method calls: buyItemByType, and CallBack error result : FAILED, date: " + getTime());
 
                     break;
                 case ALREADY_PURCHASED:
@@ -362,11 +362,11 @@ public class AmazonInappPurchasePlugin implements MethodCallHandler {
                         json.put("code", errorData[0]);
                         json.put("message", errorData[1]);
                         channel.invokeMethod("purchase-error", json.toString());
-                        channel.invokeMethod("log-show", "Method calls: buyItemByType, and CallBack result:Already purchase, info: "+json.toString() + ", date: " + Calendar.getInstance().getTime());
+                        channel.invokeMethod("log-show", "Method calls: buyItemByType, and CallBack result:Already purchase, info: "+json.toString() + ", date: " + getTime());
 
                     } catch (JSONException e) {
                         channel.invokeMethod("purchase-error", e.getMessage());
-                        channel.invokeMethod("log-show", "Method calls: buyItemByType, and CallBack result: JSONException, date: " + Calendar.getInstance().getTime());
+                        channel.invokeMethod("log-show", "Method calls: buyItemByType, and CallBack result: JSONException, date: " + getTime());
                     }
 
                     break;
@@ -382,7 +382,7 @@ public class AmazonInappPurchasePlugin implements MethodCallHandler {
                     } catch (JSONException e) {
                         channel.invokeMethod("purchase-error", e.getMessage());
                     }
-                    channel.invokeMethod("log-show", "Method calls: buyItemByType, and CallBack result: INVALID_SKU, date: " + Calendar.getInstance().getTime());
+                    channel.invokeMethod("log-show", "Method calls: buyItemByType, and CallBack result: INVALID_SKU, date: " + getTime());
 
                     break;
                 case NOT_SUPPORTED:
@@ -397,7 +397,7 @@ public class AmazonInappPurchasePlugin implements MethodCallHandler {
                     } catch (JSONException e) {
                         channel.invokeMethod("purchase-error", e.getMessage());
                     }
-                    channel.invokeMethod("log-show", "Method calls: buyItemByType, and CallBack result: NOT_SUPPORTED, date: " + Calendar.getInstance().getTime());
+                    channel.invokeMethod("log-show", "Method calls: buyItemByType, and CallBack result: NOT_SUPPORTED, date: " + getTime());
 
                     break;
 
@@ -426,23 +426,23 @@ public class AmazonInappPurchasePlugin implements MethodCallHandler {
                             Log.d(TAG, "opudr Putting " + item.toString());
                             items.put(item);
                         }
-                        channel.invokeMethod("log-show", "Method calls: getAvailableItemsByType, and CallBack result: "+items.toString() + ", date: " + Calendar.getInstance().getTime());
+                        channel.invokeMethod("log-show", "Method calls: getAvailableItemsByType, and CallBack result: "+items.toString() + ", date: " + getTime());
 
                         result.success(items.toString());
                     } catch (JSONException e) {
-                        channel.invokeMethod("log-show", "Method calls: getAvailableItemsByType, and CallBack result:JSONException " + ", date: " + Calendar.getInstance().getTime());
+                        channel.invokeMethod("log-show", "Method calls: getAvailableItemsByType, and CallBack result:JSONException " + ", date: " + getTime());
 
                         result.error(TAG, "E_BILLING_RESPONSE_JSON_PARSE_ERROR", e.getMessage());
 
                     }
                     break;
                 case FAILED:
-                    channel.invokeMethod("log-show", "Method calls: getAvailableItemsByType, and CallBack result:FAILED " + ", date: " + Calendar.getInstance().getTime());
+                    channel.invokeMethod("log-show", "Method calls: getAvailableItemsByType, and CallBack result:FAILED " + ", date: " + getTime());
 
                     result.error(TAG, "FAILED", null);
                     break;
                 case NOT_SUPPORTED:
-                    channel.invokeMethod("log-show", "Method calls: getAvailableItemsByType, and CallBack result:NOT_SUPPORTED " + ", date: " + Calendar.getInstance().getTime());
+                    channel.invokeMethod("log-show", "Method calls: getAvailableItemsByType, and CallBack result:NOT_SUPPORTED " + ", date: " + getTime());
 
                     Log.d(TAG, "onPurchaseUpdatesResponse: failed, should retry request");
                     result.error(TAG, "NOT_SUPPORTED", null);
@@ -450,6 +450,12 @@ public class AmazonInappPurchasePlugin implements MethodCallHandler {
             }
         }
     };
+
+    private String getTime() {
+        SimpleDateFormat dtf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date now = Calendar.getInstance().getTime();
+        return dtf.format(now);
+    }
 
     JSONObject getPurchaseData(String productId, String transactionId, String transactionReceipt,
                                Double transactionDate, String userId) throws JSONException {
@@ -464,4 +470,5 @@ public class AmazonInappPurchasePlugin implements MethodCallHandler {
         item.put("purchaseToken", null);
         return item;
     }
+
 }
