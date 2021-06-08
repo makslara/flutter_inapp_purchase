@@ -74,13 +74,13 @@ public class AmazonInappPurchasePlugin implements MethodCallHandler {
         } else if (call.method.equals("initConnection")) {
             try {
                 PurchasingService.registerListener(reg.context(), purchasesUpdatedListener);
-                channel.invokeMethod("log-show", "purchasesUpdatedListener registered"
+                channel.invokeMethod("log-show", "Method calls: initConnection, result: purchasesUpdatedListener registered"
                         + "date: "
                         + Calendar.getInstance().getTime());
 
             } catch (Exception e) {
                 channel.invokeMethod("log-show",
-                        "purchasesUpdatedListener didn`t registered"
+                        "Method calls: initConnection, result: purchasesUpdatedListener didn`t registered"
                                 + "date: "
                                 + Calendar.getInstance().getTime());
 
@@ -109,7 +109,7 @@ public class AmazonInappPurchasePlugin implements MethodCallHandler {
             try {
                 PurchasingService.registerListener(reg.context(), purchasesUpdatedListener);
                 channel.invokeMethod("log-show", "Method calls: getItemsByType"
-                        +", result: ,purchasesUpdatedListener registered"
+                        +", result: purchasesUpdatedListener registered"
                         + "date: "
                         + Calendar.getInstance().getTime());
 

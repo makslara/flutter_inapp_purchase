@@ -626,6 +626,7 @@ class FlutterInappPurchase {
         ..close();
       _purchaseErrorController = null;
     } else if (_logController != null) {
+      logs.clear();
       _logController
         ..add(null)
         ..close();
