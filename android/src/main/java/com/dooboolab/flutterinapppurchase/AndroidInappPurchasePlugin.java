@@ -1,6 +1,8 @@
 package com.dooboolab.flutterinapppurchase;
 
 import androidx.annotation.Nullable;
+
+import android.content.Context;
 import android.util.Log;
 
 import com.android.billingclient.api.AcknowledgePurchaseParams;
@@ -35,18 +37,15 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
 
 /** AndroidInappPurchasePlugin */
 public class AndroidInappPurchasePlugin implements MethodCallHandler {
-  public static Registrar reg;
   static private ArrayList<SkuDetails> skus;
   private final String TAG = "InappPurchasePlugin";
   private BillingClient billingClient;
   private static MethodChannel channel;
+  private  static  Context buildContext;
 
-  /** Plugin registration. */
-  public static void registerWith(Registrar registrar) {
-    channel = new MethodChannel(registrar.messenger(), "flutter_inapp");
-    channel.setMethodCallHandler(new FlutterInappPurchasePlugin());
-    reg = registrar;
-    skus = new ArrayList<>();
+  public static void registerWith(MethodChannel methodChannel, Context context) {
+    channel = methodChannel;
+    buildContext=context;
   }
 
   @Override
@@ -68,7 +67,7 @@ public class AndroidInappPurchasePlugin implements MethodCallHandler {
         return;
       }
 
-      billingClient = BillingClient.newBuilder(reg.context()).setListener(purchasesUpdatedListener)
+      billingClient = BillingClient.newBuilder(buildContext).setListener(purchasesUpdatedListener)
           .enablePendingPurchases()
           .build();
       billingClient.startConnection(new BillingClientStateListener() {
@@ -391,7 +390,7 @@ public class AndroidInappPurchasePlugin implements MethodCallHandler {
 
       builder.setSkuDetails(selectedSku);
       BillingFlowParams flowParams = builder.build();
-      billingClient.launchBillingFlow(reg.activity(), flowParams);
+      //billingClient.launchBillingFlow(buildContext, flowParams);
     }
 
     /*

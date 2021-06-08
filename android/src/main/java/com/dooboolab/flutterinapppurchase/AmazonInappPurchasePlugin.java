@@ -1,5 +1,6 @@
 package com.dooboolab.flutterinapppurchase;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.amazon.device.iap.PurchasingListener;
@@ -39,19 +40,18 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
  * AmazonInappPurchasePlugin
  */
 public class AmazonInappPurchasePlugin implements MethodCallHandler {
-    public static Registrar reg;
     private final String TAG = "InappPurchasePlugin";
     private Result result = null;
     private static MethodChannel channel;
     private String userId;
+    private static Context buildContext;
 
     /**
      * Plugin registration.
      */
-    public static void registerWith(Registrar registrar) {
-        channel = new MethodChannel(registrar.messenger(), "flutter_inapp");
-        channel.setMethodCallHandler(new FlutterInappPurchasePlugin());
-        reg = registrar;
+    public static void registerWith(MethodChannel methodChannel,Context context) {
+        channel = methodChannel;
+        buildContext=context;
     }
 
     @Override
@@ -87,7 +87,7 @@ public class AmazonInappPurchasePlugin implements MethodCallHandler {
             }
         } else if (call.method.equals("initConnection")) {
             try {
-                PurchasingService.registerListener(reg.context(), purchasesUpdatedListener);
+                PurchasingService.registerListener(buildContext, purchasesUpdatedListener);
                 Log.d(TAG, "Method calls: initConnection, result: purchasesUpdatedListener registered");
                 channel.invokeMethod("log-show", "Method calls: initConnection, result: purchasesUpdatedListener registered"
                         + "date: "
