@@ -63,6 +63,11 @@ class FlutterInappPurchase {
     return version;
   }
 
+  Future<String> get getStore async {
+    final String version = await _channel.invokeMethod('getStore');
+    return version;
+  }
+
   Future<bool> getSandboxStatus() async {
     final bool result = await _channel.invokeMethod('getSandboxMode');
     return result;

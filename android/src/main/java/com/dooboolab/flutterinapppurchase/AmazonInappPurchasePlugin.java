@@ -70,7 +70,17 @@ public class AmazonInappPurchasePlugin implements MethodCallHandler {
             channel.invokeMethod("log-show", "Method calls: getSandboxMode, result: " + PurchasingService.IS_SANDBOX_MODE
                     + ", date: " + Calendar.getInstance().getTime());
             result.success(PurchasingService.IS_SANDBOX_MODE);
-        } else if (call.method.equals("initConnection")) {
+        }
+        else if (call.method.equals("getStore")) {
+            try {
+                channel.invokeMethod("log-show", "Method calls: getStore, result:\"Amazon \"" + android.os.Build.VERSION.RELEASE + ", date: " + Calendar.getInstance().getTime());
+                result.success("Amazon " + android.os.Build.VERSION.RELEASE);
+
+            } catch (IllegalStateException e) {
+                channel.invokeMethod("log-show", "Method calls: getPlatformVersion, Error result: IllegalStateException, date: " + Calendar.getInstance().getTime());
+                e.printStackTrace();
+            }
+        }else if (call.method.equals("initConnection")) {
             try {
                 PurchasingService.registerListener(reg.context(), purchasesUpdatedListener);
                 channel.invokeMethod("log-show", "Method calls: initConnection, result: purchasesUpdatedListener registered"
