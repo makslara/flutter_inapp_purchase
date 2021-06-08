@@ -31,6 +31,10 @@ class FlutterInappPurchase {
   static StreamController<String> _purchasePromotedController;
   static Stream<String> get purchasePromoted => _purchasePromotedController.stream;
 
+  static StreamController<List<String>> _logController;
+  static Stream<List<String>> get logController => _logController.stream;
+  List<String> logs = List<String>();
+
   /// Defining the [MethodChannel] for Flutter_Inapp_Purchase
   static final MethodChannel _channel = const MethodChannel('flutter_inapp');
   static MethodChannel get channel => _channel;
@@ -576,6 +580,10 @@ class FlutterInappPurchase {
       _purchasePromotedController = new StreamController.broadcast();
     }
 
+    if (_logController == null) {
+      _logController = new StreamController.broadcast();
+    }
+
     _channel.setMethodCallHandler((MethodCall call) {
       switch (call.method) {
         case "purchase-updated":
@@ -593,6 +601,11 @@ class FlutterInappPurchase {
         case "iap-promoted-product":
           String productId = call.arguments;
           _purchasePromotedController.add(productId);
+          break;
+        case "log-show":
+          String log = call.arguments;
+          logs.add(log);
+          _logController.sink.add(logs);
           break;
         default:
           throw new ArgumentError('Unknown method ${call.method}');
@@ -612,6 +625,11 @@ class FlutterInappPurchase {
         ..add(null)
         ..close();
       _purchaseErrorController = null;
+    } else if (_logController != null) {
+      _logController
+        ..add(null)
+        ..close();
+      _logController = null;
     }
   }
 }
