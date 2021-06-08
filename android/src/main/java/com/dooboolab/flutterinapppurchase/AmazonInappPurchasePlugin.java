@@ -77,7 +77,7 @@ public class AmazonInappPurchasePlugin implements MethodCallHandler {
                 result.success("Amazon " + android.os.Build.VERSION.RELEASE);
 
             } catch (IllegalStateException e) {
-                channel.invokeMethod("log-show", "Method calls: getPlatformVersion, Error result: IllegalStateException, date: " + Calendar.getInstance().getTime());
+                channel.invokeMethod("log-show", "Method calls: getStore, Error result: IllegalStateException, date: " + Calendar.getInstance().getTime());
                 e.printStackTrace();
             }
         }else if (call.method.equals("initConnection")) {
