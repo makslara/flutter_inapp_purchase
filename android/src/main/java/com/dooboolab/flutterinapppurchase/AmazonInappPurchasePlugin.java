@@ -108,20 +108,18 @@ public class AmazonInappPurchasePlugin implements MethodCallHandler {
             try {
                 PurchasingService.registerListener(reg.context(), purchasesUpdatedListener);
                 channel.invokeMethod("log-show", "Method calls: getItemsByType"
-                        +", result: purchasesUpdatedListener registered"
+                        +", result: purchasesUpdatedListener registered, "
                         + "date: "
                         + Calendar.getInstance().getTime());
 
             } catch (Exception e) {
                 channel.invokeMethod("log-show",
-                        "Method calls: getItemsByType"+", result: repurchasesUpdatedListener didn`t registered"
+                        "Method calls: getItemsByType and registered listener"+", result: repurchasesUpdatedListener didn`t registered"
                                 + "date: "
                                 + Calendar.getInstance().getTime());
 
                 result.error(call.method, "Call endConnection method if you want to start over.", e.getMessage());
             }
-            channel.invokeMethod("log-show", "Method calls: getItemsByType"
-                    + ", date: " + Calendar.getInstance().getTime());
             String type = call.argument("type");
             ArrayList<String> skus = call.argument("skus");
 
@@ -129,7 +127,7 @@ public class AmazonInappPurchasePlugin implements MethodCallHandler {
             for (int i = 0; i < skus.size(); i++) {
                 Log.d(TAG, "Adding " + skus.get(i));
                 channel.invokeMethod("log-show", "Method calls: getItemsByType"
-                        + ", result: Adding"+skus.get(i)+", date: " + Calendar.getInstance().getTime());
+                        + ", result: Adding skus: "+skus.get(i)+", date: " + Calendar.getInstance().getTime());
                 productSkus.add(skus.get(i));
             }
             try {
