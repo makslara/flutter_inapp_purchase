@@ -317,7 +317,7 @@ public class AmazonInappPurchasePlugin implements MethodCallHandler {
                         }
                         Log.d(TAG, "Method calls: onProductDataResponse,  and CallBack result: SUCCESSFUL, item: " + items.toString());
 
-                        channel.invokeMethod("log-show", "Method calls: getProductData, and CallBack result: " + items.toString() + ", date: " + getTime());
+                        channel.invokeMethod("log-show", "Method calls: getProductData, and CallBack result: SUCCESSFUL, " + items.toString() + ", date: " + getTime());
                         result.success(items.toString());
                     } catch (JSONException e) {
                         Log.d(TAG, "Method calls: onProductDataResponse,  and CallBack result: E_BILLING_RESPONSE_JSON_PARSE_ERROR");
@@ -356,7 +356,7 @@ public class AmazonInappPurchasePlugin implements MethodCallHandler {
                         Log.d(TAG, "opr Putting " + item.toString());
                         Log.d(TAG, "Method calls: buyItemByType,  and CallBack result: SUCCESSFUL, item: " + item.toString());
                         //result.success(item.toString());
-                        channel.invokeMethod("log-show", "Method calls: buyItemByType, and CallBack result: " + item.toString() + ", date: " + getTime());
+                        channel.invokeMethod("log-show", "Method calls: buyItemByType, and CallBack result: SUCCESSFUL, " + item.toString() + ", date: " + getTime());
                         channel.invokeMethod("purchase-updated", item.toString());
 
                     } catch (JSONException e) {
@@ -464,7 +464,7 @@ public class AmazonInappPurchasePlugin implements MethodCallHandler {
                             items.put(item);
                         }
                         Log.d(TAG, "Method calls:getAvailableItemsByType, result: SUCCESSFUL, callback result:" + items.toString());
-                        channel.invokeMethod("log-show", "Method calls: getAvailableItemsByType, and CallBack result: " + items.toString() + ", date: " + getTime());
+                        channel.invokeMethod("log-show", "Method calls: getAvailableItemsByType, and CallBack result: SUCCESSFUL," + items.toString() + ", date: " + getTime());
                         result.success(items.toString());
                     } catch (JSONException e) {
                         Log.d(TAG, "Method calls:getAvailableItemsByType, result: E_BILLING_RESPONSE_JSON_PARSE_ERROR, should retry request");
