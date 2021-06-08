@@ -620,12 +620,14 @@ class FlutterInappPurchase {
         ..add(null)
         ..close();
       _purchaseController = null;
-    } else if (_purchaseErrorController != null) {
+    }
+    if (_purchaseErrorController != null) {
       _purchaseErrorController
         ..add(null)
         ..close();
       _purchaseErrorController = null;
-    } else if (_logController != null) {
+    }
+    if (_logController != null) {
       logs.clear();
       _logController
         ..add(null)
