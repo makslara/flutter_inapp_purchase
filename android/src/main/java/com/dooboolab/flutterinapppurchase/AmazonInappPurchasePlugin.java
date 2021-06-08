@@ -125,24 +125,7 @@ public class AmazonInappPurchasePlugin implements MethodCallHandler {
         } else if (call.method.equals("getItemsByType")) {
             Log.d(TAG, "Method calls: getItemsByType"
                     + ", result: purchasesUpdatedListener registered");
-            try {
-                PurchasingService.registerListener(reg.context(), purchasesUpdatedListener);
-                channel.invokeMethod("log-show", "Method calls: getItemsByType"
-                        + ", result: purchasesUpdatedListener registered, "
-                        + "date: "
-                        + getTime());
-                Log.d(TAG, "Method calls: getItemsByType"
-                        + ", result: purchasesUpdatedListener registered");
 
-            } catch (Exception e) {
-                channel.invokeMethod("log-show",
-                        "Method calls: getItemsByType and registered listener" + ", result: repurchasesUpdatedListener didn`t registered"
-                                + "date: "
-                                + getTime());
-                Log.d(TAG, "Method calls: getItemsByType"
-                        + ", result: purchasesUpdatedListener didnt registered");
-                result.error(call.method, "Call endConnection method if you want to start over.", e.getMessage());
-            }
             String type = call.argument("type");
             ArrayList<String> skus = call.argument("skus");
 
@@ -165,26 +148,6 @@ public class AmazonInappPurchasePlugin implements MethodCallHandler {
             }
 
         } else if (call.method.equals("getAvailableItemsByType")) {
-            try {
-                PurchasingService.registerListener(reg.context(), purchasesUpdatedListener);
-                Log.d(TAG, "Method calls: getAvailableItemsByType"
-                        + ", result: ,purchasesUpdatedListener registered");
-
-                channel.invokeMethod("log-show", "Method calls: getAvailableItemsByType"
-                        + ", result: ,purchasesUpdatedListener registered"
-                        + "date: "
-                        + getTime());
-
-            } catch (Exception e) {
-                Log.d(TAG, "Method calls: getAvailableItemsByType"
-                        + ", result: ,purchasesUpdatedListener didnt registered");
-                channel.invokeMethod("log-show",
-                        "Method calls: getAvailableItemsByType" + ", result: repurchasesUpdatedListener didn`t registered"
-                                + ", date: "
-                                + getTime());
-
-                result.error(call.method, "Call endConnection method if you want to start over.", e.getMessage());
-            }
             String type = call.argument("type");
             Log.d(TAG, "gaibt=" + type);
             // NOTE: getPurchaseUpdates doesnt return Consumables which are FULFILLED
@@ -208,26 +171,6 @@ public class AmazonInappPurchasePlugin implements MethodCallHandler {
             // No equivalent
             result.success("[]");
         } else if (call.method.equals("buyItemByType")) {
-            try {
-                PurchasingService.registerListener(reg.context(), purchasesUpdatedListener);
-                Log.d(TAG, "Method calls: buyItemByType"
-                        + ", result:purchasesUpdatedListener registered");
-
-                channel.invokeMethod("log-show", "Method calls: buyItemByType"
-                        + ", result:purchasesUpdatedListener registered"
-                        + ",date: "
-                        + getTime());
-
-            } catch (Exception e) {
-                Log.d(TAG, "Method calls: buyItemByType"
-                        + ", result:purchasesUpdatedListener didnt registered");
-                channel.invokeMethod("log-show",
-                        "Method calls: getAvailableItemsByType" + ", result: repurchasesUpdatedListener didn`t registered"
-                                + ",date: "
-                                + getTime());
-
-                result.error(call.method, "Call endConnection method if you want to start over.", e.getMessage());
-            }
             final String type = call.argument("type");
             final String accountId = call.argument("accountId");
             final String developerId = call.argument("developerId");
@@ -317,7 +260,7 @@ public class AmazonInappPurchasePlugin implements MethodCallHandler {
                         }
                         Log.d(TAG, "Method calls: onProductDataResponse,  and CallBack result: SUCCESSFUL, item: " + items.toString());
 
-                        channel.invokeMethod("log-show", "Method calls: getProductData, and CallBack result: SUCCESSFUL, " + items.toString() + ", date: " + getTime());
+                        channel.invokeMethod("log-show", "Method calls: getProductData, and CallBack result: " + items.toString() + ", date: " + getTime());
                         result.success(items.toString());
                     } catch (JSONException e) {
                         Log.d(TAG, "Method calls: onProductDataResponse,  and CallBack result: E_BILLING_RESPONSE_JSON_PARSE_ERROR");
@@ -356,7 +299,7 @@ public class AmazonInappPurchasePlugin implements MethodCallHandler {
                         Log.d(TAG, "opr Putting " + item.toString());
                         Log.d(TAG, "Method calls: buyItemByType,  and CallBack result: SUCCESSFUL, item: " + item.toString());
                         //result.success(item.toString());
-                        channel.invokeMethod("log-show", "Method calls: buyItemByType, and CallBack result: SUCCESSFUL, " + item.toString() + ", date: " + getTime());
+                        channel.invokeMethod("log-show", "Method calls: buyItemByType, and CallBack result: " + item.toString() + ", date: " + getTime());
                         channel.invokeMethod("purchase-updated", item.toString());
 
                     } catch (JSONException e) {
@@ -464,7 +407,7 @@ public class AmazonInappPurchasePlugin implements MethodCallHandler {
                             items.put(item);
                         }
                         Log.d(TAG, "Method calls:getAvailableItemsByType, result: SUCCESSFUL, callback result:" + items.toString());
-                        channel.invokeMethod("log-show", "Method calls: getAvailableItemsByType, and CallBack result: SUCCESSFUL," + items.toString() + ", date: " + getTime());
+                        channel.invokeMethod("log-show", "Method calls: getAvailableItemsByType, and CallBack result: " + items.toString() + ", date: " + getTime());
                         result.success(items.toString());
                     } catch (JSONException e) {
                         Log.d(TAG, "Method calls:getAvailableItemsByType, result: E_BILLING_RESPONSE_JSON_PARSE_ERROR, should retry request");
