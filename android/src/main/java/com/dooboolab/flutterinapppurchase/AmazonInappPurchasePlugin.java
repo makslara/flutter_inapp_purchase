@@ -44,7 +44,7 @@ public class AmazonInappPurchasePlugin implements MethodCallHandler {
     private Result result = null;
     private static MethodChannel channel;
     private String userId;
-
+    static PurchaseListener purchaseListener;
     /**
      * Plugin registration.
      */
@@ -52,11 +52,14 @@ public class AmazonInappPurchasePlugin implements MethodCallHandler {
         channel = new MethodChannel(registrar.messenger(), "flutter_inapp");
         channel.setMethodCallHandler(new FlutterInappPurchasePlugin());
         reg = registrar;
+        purchaseListener = new PurchaseListener(channel);
+        PurchasingService.registerListener(reg.activity().getApplication(), purchaseListener);
     }
 
     @Override
     public void onMethodCall(final MethodCall call, final Result result) {
         this.result = result;
+        purchaseListener.setResult(result);
         if (call.method.equals("getPlatformVersion")) {
             try {
                 channel.invokeMethod("log-show", "Method calls: getPlatformVersion, result:\"Amazon \"" + android.os.Build.VERSION.RELEASE + ", date: " + getTime());
@@ -87,7 +90,6 @@ public class AmazonInappPurchasePlugin implements MethodCallHandler {
             }
         } else if (call.method.equals("initConnection")) {
             try {
-                PurchasingService.registerListener(reg.activity().getApplication(), purchasesUpdatedListener);
                 Log.d(TAG, "Method calls: initConnection, result: purchasesUpdatedListener registered");
                 channel.invokeMethod("log-show", "Method calls: initConnection, result: purchasesUpdatedListener registered"
                         + "date: "
