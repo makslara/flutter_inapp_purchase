@@ -87,7 +87,7 @@ public class AmazonInappPurchasePlugin implements MethodCallHandler {
             }
         } else if (call.method.equals("initConnection")) {
             try {
-                PurchasingService.registerListener(reg.context(), purchasesUpdatedListener);
+                PurchasingService.registerListener(reg.activity().getApplication(), purchasesUpdatedListener);
                 Log.d(TAG, "Method calls: initConnection, result: purchasesUpdatedListener registered");
                 channel.invokeMethod("log-show", "Method calls: initConnection, result: purchasesUpdatedListener registered"
                         + "date: "
