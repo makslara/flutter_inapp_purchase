@@ -35,6 +35,6 @@ android {
 
 dependencies {
     implementation 'com.android.billingclient:billing:2.1.0'
-    implementation files('jars/in-app-purchasing-2.0.76.jar')
+    implementation files('../example/android/app/libs/in-app-purchasing-2.0.76.jar')
 }
 
